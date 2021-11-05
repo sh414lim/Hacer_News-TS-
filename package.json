@@ -1,0 +1,22 @@
+{
+  "name": "hacer_news-ts-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sh414lim/Hacer_News-TS-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sh414lim/Hacer_News-TS-/issues"
+  },
+  "homepage": "https://github.com/sh414lim/Hacer_News-TS-#readme",
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
+}
