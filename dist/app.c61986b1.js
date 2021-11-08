@@ -156,7 +156,7 @@ function newsFeed() {
   }
 
   for (var i = (store.currentPage - 1) * 10; i < store.currentPage * 10; i++) {
-    newsList.push("\n    <li>\n        <a href = \"#/show/" + newsFeed[i].id + "\">\n        " + newsFeed[i].title + " (" + newsFeed[i].comments_count + ")\n        </a>\n    </li>\n    ");
+    newsList.push("\n        <div class=\"p-6 bg-white mt-6 rounded-lg shadow-md transition-colors duration-500 hover:bg-green-100\">\n          <div class=\"flex\">\n            <div class=\"flex-auto\">\n              <a href=\"#/show/" + newsFeed[i].id + "\">" + newsFeed[i].title + "</a>  \n            </div>\n            <div class=\"text-center text-sm\">\n              <div class=\"w-10 text-white bg-green-300 rounded-lg px-0 py-2\">" + newsFeed[i].comments_count + "</div>\n            </div>\n          </div>\n          <div class=\"flex mt-3\">\n            <div class=\"grid grid-cols-3 text-sm text-gray-500\">\n              <div><i class=\"fas fa-user mr-1\"></i>" + newsFeed[i].user + "</div>\n              <div><i class=\"fas fa-heart mr-1\"></i>" + newsFeed[i].points + "</div>\n              <div><i class=\"far fa-clock mr-1\"></i>" + newsFeed[i].time_ago + "</div>\n            </div>  \n          </div>\n        </div>    \n      ");
   }
 
   template = template.replace('{{__news_feed__}}', newsList.join('')); //마킹 된부분 교체
@@ -173,8 +173,28 @@ function newsDetail() {
   //loaction 브라우저가 제공해주는 객체 ->주소와 관련된 다양한 정보를 알 수 있다
   var id = location.hash.substr(7); //#제거
 
-  var newsCotent = getDate(CONTENT_URL.replace('@id', id));
-  container.innerHTML = "\n    <h1> " + newsCotent.title + " </h1>\n        <div>\n            <a href =\"#/page/" + store.currentPage + "\">\uBAA9\uB85D\uC73C\uB85C</a>\n        </div>\n";
+  var newsContent = getDate(CONTENT_URL.replace('@id', id));
+  container.innerHTML = "\n<div class=\"bg-gray-600 min-h-screen pb-8\">\n<div class=\"bg-white text-xl\">\n  <div class=\"mx-auto px-4\">\n    <div class=\"flex justify-between items-center py-6\">\n      <div class=\"flex justify-start\">\n        <h1 class=\"font-extrabold\">Hacker News</h1>\n      </div>\n      <div class=\"items-center justify-end\">\n        <a href=\"#/page/" + store.currentPage + "\" class=\"text-gray-500\">\n          <i class=\"fa fa-times\"></i>\n        </a>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class=\"h-full border rounded-xl bg-white m-6 p-4 \">\n  <h2>" + newsContent.title + "</h2>\n  <div class=\"text-gray-400 h-20\">\n    " + newsContent.content + "\n  </div>\n\n  {{__comments__}}\n\n</div>\n</div>\n";
+
+  function makeComment(comments, called) {
+    if (called === void 0) {
+      called = 0;
+    }
+
+    var commentString = [];
+
+    for (var i = 0; i < comments.length; i++) {
+      commentString.push("\n    <div style=\"padding-left: " + called * 40 + "px;\" class=\"mt-4\">\n          <div class=\"text-gray-400\">\n            <i class=\"fa fa-sort-up mr-2\"></i>\n            <strong>" + comments[i].user + "</strong> " + comments[i].time_ago + "\n          </div>\n          <p class=\"text-gray-700\">" + comments[i].content + "</p>\n        </div>    \n    ");
+
+      if (comments[i].comments, length > 0) {
+        commentString.push(makeComment(comments[i].comments)); //재귀호출
+      }
+    }
+
+    return commentString.join('');
+  }
+
+  container.innerHTML = template.replace('{{__comments__}}', makeComment(newsContent.comments));
 }
 
 function router() {
@@ -182,7 +202,7 @@ function router() {
 
   if (routePath === '') {
     newsFeed();
-  } else if (routePath.indexOf('#/page/' >= 0)) {
+  } else if (routePath.indexOf('#/page/') >= 0) {
     store.currentPage = Number(routePath.substr(7));
     newsFeed();
   } else {
@@ -220,7 +240,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59197" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54087" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
