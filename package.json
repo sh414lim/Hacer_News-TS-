@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"ts-node src",
+    "build":"tsc && node dist"
   },
-  "repository": {
-  },
+  "repository": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -15,12 +16,8 @@
     "url": "https://github.com/sh414lim/Hacer_News-TS-/issues"
   },
   "homepage": "https://github.com/sh414lim/Hacer_News-TS-#readme",
-  "dependencies": {
- 
-  },
   "devDependencies": {
     "@types/node": "^17.0.5",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "ts-node": "^10.4.0"
   }
 }
